@@ -1,0 +1,1457 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x71bfEbfDd7676003098cCB83eB809124A931Fd11",
+      "txHash": "0x82d3f8349ee2a5ae14995c1396981a78f165c6bf4420f1726624107f46b831be",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xAb4b932543EF6c5eB241c40f101E68B1E2475319",
+      "txHash": "0x4dfb3fc522010077b3e39abac9b9a02cdebbaf21aaec7c6008584182e6696733",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x14FfD68A019cd1ADBA3c4Aa69230D605263D88CB",
+      "txHash": "0xb5fcac328b209913246eb530beff84fd01f23fbbee1bfcab0a94fc53905b473e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xe47cA0B03a31607d0E1f9B20823037c9F6226962",
+      "txHash": "0xfb532c8aa4ba86f978c57e5e6ca20433168d3b7e590b033fcdc32c0382bd0909",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "1f7f890c326b8fd0de9b5c57453f89e617510909be1ac003962ec9ca0eaa082b": {
+      "address": "0xE043Ab7163375781e8a570b2029Bc39E31fCb650",
+      "txHash": "0xb458fecede173f20a2904358976f2eca629ef6a50066cb4352eb75aa49b2f1f7",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)23_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:57"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "totalStaked",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:24"
+          },
+          {
+            "label": "notPaidRewards",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:26"
+          },
+          {
+            "label": "minStakeAmount",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:28"
+          },
+          {
+            "label": "periodFinish",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:30"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:32"
+          },
+          {
+            "label": "lastUpdateTime",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:34"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:36"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_mapping(t_address,t_struct(User)7786_storage)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:38"
+          },
+          {
+            "label": "rewardToken",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:40"
+          },
+          {
+            "label": "lockedStakes",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:43"
+          },
+          {
+            "label": "isStakingToken",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_address,t_uint16)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:46"
+          },
+          {
+            "label": "stakingTokens",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:48"
+          },
+          {
+            "label": "stakingTokensMultiplier",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:51"
+          },
+          {
+            "label": "stakedAmounts",
+            "offset": 0,
+            "slot": "164",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:54"
+          },
+          {
+            "label": "functionPauseStatus",
+            "offset": 0,
+            "slot": "165",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:57"
+          },
+          {
+            "label": "rewardPeriod",
+            "offset": 0,
+            "slot": "166",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:59"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20Upgradeable)659": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)7786_storage)": {
+            "label": "mapping(address => struct MRC404Staking.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint16)": {
+            "label": "mapping(address => uint16)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)23_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)23_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(User)7786_storage": {
+            "label": "struct MRC404Staking.User",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "paidReward",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "paidRewardPerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pendingRewards",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "stakedTokens",
+                "type": "t_array(t_address)dyn_storage",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint16": {
+            "label": "uint16",
+            "numberOfBytes": "2"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "fd8560cba295f051c9ee504a25fa13f7eda917510b8752084db7d9bb0454d2dc": {
+      "address": "0xaDe2ab274a0ffE903B80B2c75aE6dDEea7e2739D",
+      "txHash": "0x48a8f0eb3562b3b244ccac68936104638490db35ff36a039f4d5d71d6b5b550a",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)23_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:57"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "totalStaked",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:24"
+          },
+          {
+            "label": "notPaidRewards",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:26"
+          },
+          {
+            "label": "minStakeAmount",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:28"
+          },
+          {
+            "label": "periodFinish",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:30"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:32"
+          },
+          {
+            "label": "lastUpdateTime",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:34"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:36"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_mapping(t_address,t_struct(User)2736_storage)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:38"
+          },
+          {
+            "label": "rewardToken",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:40"
+          },
+          {
+            "label": "lockedStakes",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:43"
+          },
+          {
+            "label": "isStakingToken",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_address,t_uint16)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:46"
+          },
+          {
+            "label": "stakingTokens",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:48"
+          },
+          {
+            "label": "stakingTokensMultiplier",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:51"
+          },
+          {
+            "label": "stakedAmounts",
+            "offset": 0,
+            "slot": "164",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:54"
+          },
+          {
+            "label": "functionPauseStatus",
+            "offset": 0,
+            "slot": "165",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:57"
+          },
+          {
+            "label": "rewardPeriod",
+            "offset": 0,
+            "slot": "166",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:59"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20Upgradeable)659": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)2736_storage)": {
+            "label": "mapping(address => struct MRC404Staking.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint16)": {
+            "label": "mapping(address => uint16)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)23_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)23_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(User)2736_storage": {
+            "label": "struct MRC404Staking.User",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "paidReward",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "paidRewardPerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pendingRewards",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "stakedTokens",
+                "type": "t_array(t_address)dyn_storage",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint16": {
+            "label": "uint16",
+            "numberOfBytes": "2"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "8c8046d8bbdf6d68d8e9a9707cf83e937c3ae003380df1f61675bf9a2e3e4911": {
+      "address": "0x06F5EBd6D11F7D2FBD3d583BD96B873b2Fef8836",
+      "txHash": "0x048833d56b8392f87748c7a9bd9ed658aabd2d024eed11d61494f9fee5163042",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)23_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:57"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "totalStaked",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:23"
+          },
+          {
+            "label": "minStakeAmount",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:25"
+          },
+          {
+            "label": "periodFinish",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:27"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:29"
+          },
+          {
+            "label": "lastUpdateTime",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:31"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:33"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_mapping(t_address,t_struct(User)2733_storage)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:35"
+          },
+          {
+            "label": "rewardToken",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:37"
+          },
+          {
+            "label": "stakedToken",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:38"
+          },
+          {
+            "label": "lockedStakes",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:41"
+          },
+          {
+            "label": "functionPauseStatus",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:44"
+          },
+          {
+            "label": "rewardPeriod",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:46"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20Upgradeable)659": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)2733_storage)": {
+            "label": "mapping(address => struct MRC404Staking.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)23_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)23_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(User)2733_storage": {
+            "label": "struct MRC404Staking.User",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "paidReward",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "paidRewardPerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pendingRewards",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "37f553ab7eaea7eed4f83bb1e72b92e401de31ce90803253a03ff76ae7fbc422": {
+      "address": "0x9CDa37aCa1B49Bf677337Cf9D40bA55077C4D8b4",
+      "txHash": "0xa184d2a0b5369622e07071d8d5d092f942c934b25cf2fd900fb1447b25ac1b9b",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)23_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:57"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "totalStaked",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:23"
+          },
+          {
+            "label": "minStakeAmount",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:25"
+          },
+          {
+            "label": "periodFinish",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:27"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:29"
+          },
+          {
+            "label": "lastUpdateTime",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:31"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:33"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_mapping(t_address,t_struct(User)2733_storage)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:35"
+          },
+          {
+            "label": "rewardToken",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:37"
+          },
+          {
+            "label": "stakedToken",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:38"
+          },
+          {
+            "label": "lockedStakes",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:41"
+          },
+          {
+            "label": "functionPauseStatus",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:44"
+          },
+          {
+            "label": "rewardPeriod",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:46"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20Upgradeable)659": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)2733_storage)": {
+            "label": "mapping(address => struct MRC404Staking.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)23_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)23_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(User)2733_storage": {
+            "label": "struct MRC404Staking.User",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "paidReward",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "paidRewardPerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pendingRewards",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "5d50df027a91063ccc5ae77ed1d1d1067082c0706550c469cb2ec1b85845414a": {
+      "address": "0x7A6d459F7CF25212e6788710Df1aa7Dd95B203d8",
+      "txHash": "0x4318a8ac4cd8ff5c77b36c6be2d4916709a4c728956b4f058855a069bb453026",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)23_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:57"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "totalStaked",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:24"
+          },
+          {
+            "label": "minStakeAmount",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:26"
+          },
+          {
+            "label": "periodFinish",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:28"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:30"
+          },
+          {
+            "label": "lastUpdateTime",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:32"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:34"
+          },
+          {
+            "label": "withdrawalWaitingPeriod",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:36"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_mapping(t_address,t_struct(User)2751_storage)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:38"
+          },
+          {
+            "label": "rewardToken",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:40"
+          },
+          {
+            "label": "stakedToken",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_contract(IERC20Upgradeable)659",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:41"
+          },
+          {
+            "label": "lockedStakes",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:44"
+          },
+          {
+            "label": "functionPauseStatus",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:47"
+          },
+          {
+            "label": "rewardPeriod",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_uint256",
+            "contract": "MRC404Staking",
+            "src": "contracts/MRC404Staking.sol:49"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20Upgradeable)659": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)2751_storage)": {
+            "label": "mapping(address => struct MRC404Staking.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)23_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)23_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(User)2751_storage": {
+            "label": "struct MRC404Staking.User",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "paidReward",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "paidRewardPerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pendingRewards",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "lastStakeTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}
