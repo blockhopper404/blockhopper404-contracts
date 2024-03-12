@@ -5,7 +5,7 @@ import { expect, } from "chai";
 import { ethers } from "hardhat";
 import { PANIC_CODES } from "@nomicfoundation/hardhat-chai-matchers/panic";
 import { ERC404m } from "../typechain-types";
-import { Signer, Wallet } from "ethers";
+import { BigNumberish, Signer, Wallet } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 
@@ -574,7 +574,115 @@ describe.only("ERC404m", function() {
   })
 
   describe("BurnFrom", function(){
+    const amount = 10;
+    const amountInWei = ethers.parseEther(amount.toString());
+    const valueOrId = 5;
+    const valueOrIdInWei = ethers.parseEther(valueOrId.toString());
+
+    beforeEach("Mint some tokens", async function() {
+      await this.token.mint(this.wallet1, amountInWei, rarityBytes);
+    })
+
     //_burnFromERC20
+    describe("Burn from ERC20", async function() {
+
+      it('Reverts zero address', async function () {
+        await expect(this.token.connect(this.spender)["burnFrom(address,uint256)"](ethers.ZeroAddress, 1n))
+        .to.be.revertedWithCustomError(this.token, 'InvalidSender')
+      });
+
+      describe('When from is a non-zero address', function () {
+
+        it('Reverts burning more than balance', async function () {
+          await expect(this.token.connect(this.spender)
+          ["burnFrom(address,uint256)"](this.wallet1, amountInWei + 1n))
+          .to.be.reverted
+        });
+
+        it('Reverts burning more than allowance', async function () {
+          await this.token.connect(this.wallet1).approve(this.spender, valueOrIdInWei);
+          await expect(this.token.connect(this.spender)
+          ["burnFrom(address,uint256)"](this.wallet1, valueOrIdInWei + 1n))
+          .to.be.revertedWithCustomError(this.token, "ERC20InsufficientAllowance")
+        });
+
+        const describeBurn = function (description: string, value: bigint) {
+          describe(description, function () {
+            beforeEach('burning', async function () {
+              await this.token.connect(this.wallet1).approve(this.spender, value);
+
+              this.burnFromErc20Tx = await this.token.connect(this.spender)
+              ["burnFrom(address,uint256)"](this.wallet1, value);
+            });
+
+            it('Decrements allowance', async function () {
+              expect(await this.token.allowance(this.wallet1, this.spender))
+              .to.equal(0);
+            });
+
+            it('Decrements totalSupply', async function () {
+              expect(await this.token.totalSupply()).to.equal(amountInWei - value);
+            });
+
+            it('Decrements holder balance', async function () {
+              await expect(this.burnFromErc20Tx).to.changeTokenBalance(this.token, this.wallet1, -value);
+            });
+
+            it('Emits Transfer event', async function () {
+              await expect(this.burnFromErc20Tx).to.emit(this.token, 'ERC20Transfer')
+              .withArgs(this.wallet1, ethers.ZeroAddress, value);
+            });
+
+          });
+        };
+
+        describeBurn('for entire balance', amountInWei);
+        describeBurn('for less value than balance', amountInWei - 1n);
+      });
+    })
+
+    //_burnFromERC721
+    describe("Burn from ERC721", function() {
+      it("Reverts burning when from address is not the owner", async function () {
+        await this.token.mint(this.wallet2, amountInWei, rarityBytes);
+        await expect(this.token.connect(this.spender)
+
+        ["burnFrom(address,uint256[])"](this.wallet2, [valueOrId]))
+        .to.be.revertedWithCustomError(this.token, "Unauthorized");
+      });
+
+      it("Reverts when spender doesn't have approval", async function () {
+        await expect(this.token.connect(this.spender)
+        ["burnFrom(address,uint256[])"](this.wallet1, [valueOrId]))
+        .to.be.revertedWithCustomError(this.token, "Unauthorized")
+      });
+
+      it("Holder can burn the token", async function () {
+        await this.token.connect(this.wallet1)
+        ["burnFrom(address,uint256[])"](this.wallet1, [valueOrId])
+      });
+
+      describe("Burn from non-zero address with approval", function() {
+        beforeEach("Burn one token", async function() {
+          await this.token.connect(this.wallet1).approve(this.spender, valueOrId);
+          this.burnTx = await this.token.connect(this.spender)
+          ["burnFrom(address,uint256[])"](this.wallet1, [valueOrId])
+        })
+
+        it("Decrements totalSupply", async function() {
+          expect(await this.token.totalSupply()).to.equal(amountInWei - ethers.parseEther("1"));
+        })
+
+        it("Decrements balanceOf", async function() {
+          expect(await this.token.balanceOf(this.wallet1)).to.equal(amountInWei - ethers.parseEther("1"));
+        })
+
+        it("Check ownerOf", async function() {
+          await expect(this.token.ownerOf(valueOrId))
+          .to.revertedWithCustomError(this.token, "NotFound");
+        })
+      })
+    })
   })
 
   describe("ApproveForAll", function(){})
