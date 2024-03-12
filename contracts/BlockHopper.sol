@@ -2,9 +2,9 @@
 pragma solidity ^0.8.20;
 
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
-import {MRC404} from "../extensions/MRC404.sol";
+import {MRC404} from "./extensions/MRC404.sol";
 
-contract ERC404m is MRC404 {
+contract BlockHopper is MRC404 {
   mapping(uint256 => uint256) public raritySeeds;
   string public baseTokenURI;
 
@@ -16,7 +16,7 @@ contract ERC404m is MRC404 {
 
   constructor(
     string memory _baseTokenURI
-  ) MRC404("Muon ERC404", "ERC404m", 18, msg.sender) {
+  ) MRC404("BlockHopper", "GUN", 18, msg.sender) {
     baseTokenURI = _baseTokenURI;
     setSelfERC721TransferExempt(true);
     _grantRole(MINTER_ROLE, msg.sender);
@@ -47,23 +47,13 @@ contract ERC404m is MRC404 {
   function tokenURI(uint256 _id) public view override returns (string memory) {
     uint256 raritySeed = getRaritySeed(_id);
 
-    // return
-    //   string(
-    //     abi.encodePacked(
-    //       baseTokenURI,
-    //       Strings.toString(raritySeed),
-    //       "/",
-    //       Strings.toString(block.chainid),
-    //       "/",
-    //       Strings.toString(_id)
-    //     )
-    //   );
-
     return
       string(
         abi.encodePacked(
           baseTokenURI,
           Strings.toString(raritySeed),
+          "/",
+          Strings.toString(block.chainid),
           "/",
           Strings.toString(_id)
         )
