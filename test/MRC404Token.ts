@@ -514,10 +514,68 @@ describe.only("ERC404m", function() {
     })
 
     //erc20TransferFrom
-    describe("Value is not a valid token ID", function() {})
+    describe("Value is not a valid token ID", function() {
+      describe("The spender has allowance", async function() {
+
+        beforeEach("Transfer token", async function() {
+          await this.token.connect(this.wallet1)
+          .approve(this.spender, valueOrIdInWei);
+          this.transferFromTx = await this.token.connect(this.spender)
+          .transferFrom(this.wallet1, this.wallet2, valueOrIdInWei);
+        })
+
+        it("Check the receiver balance", async function() {
+          expect(await this.token.balanceOf(this.wallet2)).to.equal(valueOrIdInWei);
+        })
+
+        it("Emit ERC721Transfer event", async function() {
+          for(let i = amount; i > amount - valueOrId; i--) {
+            await expect(this.transferFromTx)
+            .to.emit(this.token, "ERC721Transfer")
+            .withArgs(this.wallet1, this.wallet2, i);
+          }
+        })
+
+        it("Emit Transfer event for erc721 tokens", async function() {
+          for(let i = amount; i > amount - valueOrId; i--) {
+            await expect(this.transferFromTx)
+            .to.emit(this.token, "Transfer")
+            .withArgs(this.wallet1, this.wallet2, i);
+          }
+        })
+
+        it("Emit ERC20Transfer event", async function() {
+          await expect(this.transferFromTx)
+          .to.emit(this.token, "ERC20Transfer")
+          .withArgs(this.wallet1, this.wallet2, valueOrIdInWei);
+        })
+      })
+
+      it("Reverts when the spender doesn't have allowance", async function() {
+        // TODO: needs custom error
+        await expect(this.token.connect(this.spender)
+        .transferFrom(this.wallet1, this.wallet2, valueOrIdInWei))
+        .to.revertedWithPanic(PANIC_CODES.ARITHMETIC_OVERFLOW);
+      })
+
+      it("Reverts when transfer from the zero address", async function() {
+        await expect(this.token.connect(this.spender)
+        .transferFrom(ethers.ZeroAddress, this.wallet2, valueOrIdInWei))
+        .to.revertedWithCustomError(this.token, "InvalidSender");
+      })
+
+      it("Reverts when transfer to the zero address", async function() {
+        await expect(this.token.connect(this.spender)
+        .transferFrom(this.wallet2, ethers.ZeroAddress, valueOrIdInWei))
+        .to.revertedWithCustomError(this.token, "InvalidRecipient");
+      })
+
+    })
   })
 
-  describe("BurnFrom", function(){})
+  describe("BurnFrom", function(){
+    //_burnFromERC20
+  })
 
   describe("ApproveForAll", function(){})
 })
