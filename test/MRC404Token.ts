@@ -436,9 +436,88 @@ describe.only("ERC404m", function() {
     })
   })
 
-  describe("TransferFrom", async function(){})
+  describe("transferFrom", function(){
+    const amount = 50;
+    const amountInWei = ethers.parseEther(amount.toString());
+    const valueOrId = 5;
+    const valueOrIdInWei = ethers.parseEther(valueOrId.toString());
 
-  describe("BurnFrom", async function(){})
+    beforeEach("Mint some tokens", async function() {
+      await this.token.mint(this.wallet1, amountInWei, rarityBytes);
+    })
 
-  describe("ApproveForAll", async function(){})
+    // erc721TransferFrom
+    describe("Value is a valid token ID", function() {
+      describe("The spender has approval", async function() {
+
+        beforeEach("Transfer token", async function() {
+          await this.token.connect(this.wallet1)
+          .approve(this.spender, valueOrId);
+          this.transferFromTx = await this.token.connect(this.spender)
+          .transferFrom(this.wallet1, this.wallet2, valueOrId);
+        })
+
+        it("Reverts if sender is not the owner", async function() {
+          await expect(this.token.connect(this.spender)
+          .transferFrom(this.wallet2, this.wallet1, valueOrId))
+          .to.revertedWithCustomError(this.token, "Unauthorized");
+        });
+
+        it("Check the ownership", async function() {
+          expect(await this.token.ownerOf(valueOrId)).to.equal(this.wallet2);
+        })
+
+        it("Emit ERC721Transfer", async function() {
+          await expect(this.transferFromTx).to.emit(this.token, "ERC721Transfer")
+          .withArgs(this.wallet1, this.wallet2, valueOrId);
+        })
+
+        it("Emit Transfer", async function() {
+          await expect(this.transferFromTx).to.emit(this.token, "Transfer")
+          .withArgs(this.wallet1, this.wallet2, valueOrId);
+        })
+
+        it("Emit ERC20Transfer", async function() {
+          await expect(this.transferFromTx).to.emit(this.token, "ERC20Transfer")
+          .withArgs(this.wallet1, this.wallet2, ethers.parseEther("1"));
+        })
+      })
+
+      it("Reverts when the spender doesn't have approval", async function() {
+        await expect(this.token.connect(this.spender)
+        .transferFrom(this.wallet1, this.wallet2, valueOrId))
+        .to.revertedWithCustomError(this.token, "Unauthorized");
+      })
+
+      it("Reverts when transfer from zero address", async function() {
+        await expect(this.token.connect(this.spender)
+        .transferFrom(ethers.ZeroAddress, this.wallet2, valueOrId))
+        .to.revertedWithCustomError(this.token, "InvalidSender");
+      })
+
+      it("Reverts when transfer to zero address", async function() {
+        await expect(this.token.connect(this.spender)
+        .transferFrom(this.wallet2, ethers.ZeroAddress, valueOrId))
+        .to.revertedWithCustomError(this.token, "InvalidRecipient");
+      })
+
+      it("Reverts when the sender not the owner or approved", async function() {
+        await expect(this.token.connect(this.spender)
+        .transferFrom(this.wallet1, this.wallet2, valueOrId))
+        .to.revertedWithCustomError(this.token, "Unauthorized");
+      })
+
+      it("Owner can transfer", async function() {
+        await this.token.connect(this.wallet1)
+        .transferFrom(this.wallet1, this.wallet2, valueOrId);
+      })
+    })
+
+    //erc20TransferFrom
+    describe("Value is not a valid token ID", function() {})
+  })
+
+  describe("BurnFrom", function(){})
+
+  describe("ApproveForAll", function(){})
 })
