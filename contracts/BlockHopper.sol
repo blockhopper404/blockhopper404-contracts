@@ -47,23 +47,13 @@ contract BlockHopper is MRC404 {
   function tokenURI(uint256 _id) public view override returns (string memory) {
     uint256 raritySeed = getRaritySeed(_id);
 
-    // return
-    //   string(
-    //     abi.encodePacked(
-    //       baseTokenURI,
-    //       Strings.toString(raritySeed),
-    //       "/",
-    //       Strings.toString(block.chainid),
-    //       "/",
-    //       Strings.toString(_id)
-    //     )
-    //   );
-
     return
       string(
         abi.encodePacked(
           baseTokenURI,
           Strings.toString(raritySeed),
+          "/",
+          Strings.toString(block.chainid),
           "/",
           Strings.toString(_id)
         )
