@@ -405,7 +405,36 @@ describe.only("ERC404m", function() {
     })
   })
 
-  describe("ApproveForAll", async function(){})
+  describe("ApproveForAll", async function(){
+    it("Reverts when spender is zero address", async function() {
+      await expect(this.token.connect(this.wallet1)
+      .setApprovalForAll(ethers.ZeroAddress, true)).
+      revertedWithCustomError(this.token, "InvalidOperator");
+    })
+
+    describe("When spender is not zero address", async function() {
+      beforeEach("Set approve for all", async function() {
+        this.approveAllTx = await this.token.connect(this.wallet1).setApprovalForAll(this.spender, true);
+      })
+
+      it("Check isApprovedForAll", async function() {
+        expect(await this.token.isApprovedForAll(this.wallet1, this.spender))
+        .to.be.true;
+      })
+
+      it("Unset spender approval", async function() {
+        await this.token.connect(this.wallet1).setApprovalForAll(this.spender, false);
+        expect(await this.token.isApprovedForAll(this.wallet1, this.spender))
+        .to.be.false;
+      })
+
+      it("Emit ApprovalForAll event", async function() {
+        await expect(this.approveAllTx)
+        .to.emit(this.token, "ApprovalForAll")
+        .withArgs(this.wallet1, this.spender, true);
+      })
+    })
+  })
 
   describe("TransferFrom", async function(){})
 
