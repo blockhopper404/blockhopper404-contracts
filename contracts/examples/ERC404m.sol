@@ -8,6 +8,12 @@ contract ERC404m is MRC404 {
   mapping(uint256 => uint256) public raritySeeds;
   string public baseTokenURI;
 
+  event RaritySeedRemoved(
+    address indexed caller,
+    uint256 indexed id,
+    uint256 indexed seed
+  );
+
   constructor(
     string memory _baseTokenURI
   ) MRC404("Muon ERC404", "ERC404m", 18, msg.sender) {
@@ -120,6 +126,7 @@ contract ERC404m is MRC404 {
   function deleteRaritySeeds(uint256[] memory nftIds) internal {
     uint256 nftIdsLength = nftIds.length;
     for (uint256 i = 0; i < nftIdsLength; i++) {
+      emit RaritySeedRemoved(msg.sender, nftIds[i], raritySeeds[nftIds[i]]);
       delete raritySeeds[nftIds[i]];
     }
   }
