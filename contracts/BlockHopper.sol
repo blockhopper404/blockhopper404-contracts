@@ -8,15 +8,22 @@ contract BlockHopper is MRC404 {
   mapping(uint256 => uint256) public raritySeeds;
   string public baseTokenURI;
 
+  event RaritySeedSet(
+    address caller,
+    address indexed to,
+    uint256 indexed id,
+    uint256 indexed seed
+  );
   event RaritySeedRemoved(
-    address indexed caller,
+    address caller,
+    address indexed from,
     uint256 indexed id,
     uint256 indexed seed
   );
 
   constructor(
     string memory _baseTokenURI
-  ) MRC404("BlockHopper", "GUN", 18, msg.sender) {
+  ) MRC404("BlockHopper", "GUN", 18, msg.sender, 10000) {
     baseTokenURI = _baseTokenURI;
     setSelfERC721TransferExempt(true);
     _grantRole(MINTER_ROLE, msg.sender);
@@ -66,7 +73,7 @@ contract BlockHopper is MRC404 {
   ) public override returns (bytes memory nftData) {
     uint256[] memory nftIds = _burnFromERC20(from, amount);
     nftData = encodeData(nftIds);
-    deleteRaritySeeds(nftIds);
+    deleteRaritySeeds(from, nftIds);
   }
 
   function burnFrom(
@@ -75,7 +82,7 @@ contract BlockHopper is MRC404 {
   ) public override returns (bytes memory nftData) {
     _burnFromERC721(from, nftIds);
     nftData = encodeData(nftIds);
-    deleteRaritySeeds(nftIds);
+    deleteRaritySeeds(from, nftIds);
   }
 
   function mint(
@@ -93,6 +100,7 @@ contract BlockHopper is MRC404 {
       } else {
         raritySeeds[nftIds[i]] = getRaritySeed(nftIds[i]);
       }
+      emit RaritySeedSet(msg.sender, to, nftIds[i], raritySeeds[nftIds[i]]);
     }
     return nftIds;
   }
@@ -113,10 +121,15 @@ contract BlockHopper is MRC404 {
     }
   }
 
-  function deleteRaritySeeds(uint256[] memory nftIds) internal {
+  function deleteRaritySeeds(address from, uint256[] memory nftIds) internal {
     uint256 nftIdsLength = nftIds.length;
     for (uint256 i = 0; i < nftIdsLength; i++) {
-      emit RaritySeedRemoved(msg.sender, nftIds[i], raritySeeds[nftIds[i]]);
+      emit RaritySeedRemoved(
+        msg.sender,
+        from,
+        nftIds[i],
+        raritySeeds[nftIds[i]]
+      );
       delete raritySeeds[nftIds[i]];
     }
   }

@@ -16,7 +16,7 @@ contract ERC404m is MRC404 {
 
   constructor(
     string memory _baseTokenURI
-  ) MRC404("Muon ERC404", "ERC404m", 18, msg.sender) {
+  ) MRC404("Muon ERC404", "ERC404m", 18, msg.sender, 10000) {
     baseTokenURI = _baseTokenURI;
     setSelfERC721TransferExempt(true);
     _grantRole(MINTER_ROLE, msg.sender);
