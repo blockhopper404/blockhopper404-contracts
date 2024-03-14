@@ -17,6 +17,7 @@ describe.only("MRC404Staking", function() {
   let user1: Signer;
   let user2: Signer;
   let rewardRole: Signer;
+  let daoRole: Signer;
   let token: BlockHopper;
   let mrcStaking: MRC404Staking;
   let oneDay = 60*60*24;
@@ -29,6 +30,7 @@ describe.only("MRC404Staking", function() {
       user1,
       user2,
       rewardRole,
+      daoRole
     ] = await ethers.getSigners();
   });
 
@@ -46,6 +48,7 @@ describe.only("MRC404Staking", function() {
     await token.mint(user2, ethers.parseEther("100"), rarityBytes);
     await token.setWhitelist(mrcStaking, true);
     await mrcStaking.grantRole(await mrcStaking.REWARD_ROLE(), rewardRole);
+    await mrcStaking.grantRole(await mrcStaking.DAO_ROLE(), daoRole);
     return {
       token,
       mrcStaking
@@ -165,12 +168,8 @@ describe.only("MRC404Staking", function() {
     describe("After two distributions", function() {
       const numberOfDays = 4;
       const addedDuration = numberOfDays * oneDay;
-      // let expectedRewardRateBefore = rewardsInWei / BigInt(rewardPeriod);
-      // let expectedRewardPerToken = BigInt(addedDuration) * expectedRewardRate * units / stakedAmountInWei;
       beforeEach("Distribute some tokens for second time", async function() {
-        const firstRate = await mrcStaking.rewardRate()
         const periodFinishBefore = await mrcStaking.periodFinish();
-        const firstEarned = mrcStaking.earned(user1);
 
         await time.increase(addedDuration);
         const rewardPerTokenStored = await mrcStaking.rewardPerTokenStored();
@@ -180,7 +179,6 @@ describe.only("MRC404Staking", function() {
 
         const leftOver = BigInt(remainingTime) * rewardsInWei / BigInt(rewardPeriod);
         this.expectedRewardRate = (rewardsInWei + leftOver) / BigInt(rewardPeriod);
-        const userInfo = await mrcStaking.users(user1);
 
         await time.increase(addedDuration);
 
@@ -214,6 +212,71 @@ describe.only("MRC404Staking", function() {
       })
     })
 
+  })
+
+  describe("Get Reward", function() {
+    let stakedAmount = 40;
+    let stakedAmountInWei = ethers.parseEther(stakedAmount.toString());
+    const rewards = 20;
+    const rewardsInWei = ethers.parseEther(rewards.toString());
+
+    beforeEach("Stake and distribute some tokens", async function() {
+      await token.connect(user1).approve(mrcStaking, stakedAmountInWei);
+      await mrcStaking.connect(user1).stake(stakedAmountInWei);
+
+      await token.connect(user2).approve(mrcStaking, stakedAmountInWei);
+      await mrcStaking.connect(user2).stake(stakedAmountInWei/2n);
+    })
+
+    it("Reverts when function is paused", async function() {
+      await mrcStaking.connect(daoRole).setFunctionPauseStatus("getReward", true);
+      await expect(mrcStaking.connect(user1).getReward())
+      .rejectedWith("Function is paused.")
+    })
+
+    it("Reverts before rewards distribution", async function() {
+      await expect(mrcStaking.connect(user1).getReward())
+      .rejectedWith("Invalid reward amount")
+    })
+
+    describe("After rewards distribution", function() {
+      beforeEach("Stake and distribute some tokens", async function() {
+        await mrcStaking.connect(rewardRole).distributeRewards(rewardsInWei);
+      })
+
+      const getRewardDesc = function(
+        description: string,
+        addedDuration: number
+      ) {
+        describe(description, function() {
+          beforeEach("Stake and distribute some tokens", async function() {
+            await time.increase(addedDuration);
+            this.user1Reward = await mrcStaking.earned(user1);
+            this.user1Tx = await mrcStaking.connect(user1).getReward();
+            this.user2Reward = await mrcStaking.earned(user2);
+            this.user2tx = await mrcStaking.connect(user2).getReward();
+          })
+
+          it("Decrease user rewards", async function() {
+            expect(await mrcStaking.earned(user1)).to.approximately(0, 15432098765440);
+            expect(await mrcStaking.earned(user2)).to.approximately(0, 15432098765440);
+          })
+
+          it("Check user paid reward", async function() {
+            const user1Info = await mrcStaking.users(user1);
+            const user2Info = await mrcStaking.users(user2);
+            expect(user1Info.paidReward).to.approximately(this.user1Reward, 15432098765440);
+            expect(user2Info.paidReward).to.approximately(this.user2Reward, 15432098765440);
+          })
+
+        })
+      }
+
+      getRewardDesc("Before period finished", oneDay * 5)
+      getRewardDesc("In periodFinished time", rewardPeriod);
+      getRewardDesc("After period finished", oneDay * 15);
+
+    })
   })
 
 })
