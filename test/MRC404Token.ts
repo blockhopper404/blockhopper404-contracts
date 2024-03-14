@@ -9,7 +9,7 @@ import { BigNumberish, Signer, Wallet } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 
-describe.only("ERC404m", function() {
+describe("ERC404m", function() {
   const rarityBytes = "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000";
   const tokenName: String = "Muon ERC404";
   const tokenSymbol: String = "ERC404m";

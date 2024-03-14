@@ -3,7 +3,7 @@ import {
 } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { expect, } from "chai";
 import { ethers } from "hardhat";
-import { ERC404m } from "../typechain-types";
+import { ERC404m } from "../../typechain-types";
 import { Signer } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
