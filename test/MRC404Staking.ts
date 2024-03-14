@@ -6,6 +6,7 @@ import { ethers, upgrades } from "hardhat";
 import { PANIC_CODES } from "@nomicfoundation/hardhat-chai-matchers/panic";
 import { BlockHopper, MRC404Staking } from "../typechain-types";
 import { BigNumberish, Signer } from "ethers";
+// import {} from "ethers"
 import { time } from "@nomicfoundation/hardhat-network-helpers";
 
 
@@ -98,10 +99,10 @@ describe.only("MRC404Staking", function() {
 
     describe("Before period finished", async function() {
 
-      const numberOfDays = 5
+      const numberOfDays = 2
       const addedDuration = oneDay * numberOfDays;
-      const expectedRewardRate = rewardsInWei / BigInt(rewardPeriod);
-      const expectedRewardPerToken = BigInt(addedDuration) * expectedRewardRate * units / stakedAmountInWei;
+      let expectedRewardRate = rewardsInWei / BigInt(rewardPeriod);
+      let expectedRewardPerToken = BigInt(addedDuration) * expectedRewardRate * units / stakedAmountInWei;
 
       beforeEach("Increase time", async function() {
         await time.increase(addedDuration);
@@ -119,15 +120,100 @@ describe.only("MRC404Staking", function() {
         .to.approximately(rewardsInWei / ratio, 64000)
       })
 
+      describe.skip("Second user stake", function() {
+        // let expectedRewardRate = rewardsInWei / BigInt(rewardPeriod);
+        let expectedRewardPerToken_ = expectedRewardPerToken + BigInt(addedDuration) * expectedRewardRate * units / (stakedAmountInWei*2n);
+
+        beforeEach("Increase time", async function() {
+          await token.connect(user2).approve(mrcStaking, stakedAmountInWei);
+          await mrcStaking.connect(user2).stake(stakedAmountInWei);
+          this.user2Info = await mrcStaking.users(user2);
+          await time.increase(addedDuration);
+        })
+
+        it("Check reward per token", async function() {
+          expect(await mrcStaking.rewardPerToken()).to.closeTo(expectedRewardPerToken_, 64000);
+        })
+
+      })
+
     })
 
+    describe("After period finished", function() {
+      const numberOfDays = 14
+      const addedDuration = oneDay * numberOfDays;
+      let expectedRewardRate = rewardsInWei / BigInt(rewardPeriod);
+      let expectedRewardPerToken = BigInt(rewardPeriod) * expectedRewardRate * units / stakedAmountInWei;
+
+      beforeEach("Increase time", async function() {
+        await time.increase(addedDuration);
+        this.user1Info = await mrcStaking.users(user1);
+      })
+
+      it("Check reward per token", async function() {
+        expect(await mrcStaking.rewardPerToken()).to.equal(expectedRewardPerToken);
+      })
+
+      it("Check earned amount", async function() {
+        // const ratio = BigInt(10 / rewardPeriod);
+        const expectedEarned = this.user1Info.balance * expectedRewardPerToken / units;
+        expect(await mrcStaking.earned(user1)).to.equal(expectedEarned)
+      })
+
+    })
+
+    describe("After two distributions", function() {
+      const numberOfDays = 4;
+      const addedDuration = numberOfDays * oneDay;
+      // let expectedRewardRateBefore = rewardsInWei / BigInt(rewardPeriod);
+      // let expectedRewardPerToken = BigInt(addedDuration) * expectedRewardRate * units / stakedAmountInWei;
+      beforeEach("Distribute some tokens for second time", async function() {
+        const firstRate = await mrcStaking.rewardRate()
+        const periodFinishBefore = await mrcStaking.periodFinish();
+        const firstEarned = mrcStaking.earned(user1);
+
+        await time.increase(addedDuration);
+        const rewardPerTokenStored = await mrcStaking.rewardPerTokenStored();
+        await mrcStaking.connect(rewardRole).distributeRewards(rewardsInWei);
+
+        const remainingTime = periodFinishBefore - BigInt((await time.latest()));
+
+        const leftOver = BigInt(remainingTime) * rewardsInWei / BigInt(rewardPeriod);
+        this.expectedRewardRate = (rewardsInWei + leftOver) / BigInt(rewardPeriod);
+        const userInfo = await mrcStaking.users(user1);
+
+        await time.increase(addedDuration);
+
+        this.expectedRewardPerToken = rewardPerTokenStored + (BigInt(addedDuration) * this.expectedRewardRate * units) / stakedAmountInWei;
+
+      })
+
+      it("Check last update time", async function() {
+        expect(await mrcStaking.lastUpdateTime())
+        .to.equal((await time.latest()) - addedDuration);
+      })
+
+      it("Check reward rate", async function() {
+        expect(await mrcStaking.rewardRate()).to.equal(this.expectedRewardRate);
+      })
+
+      it("Can increase stake amount", async function() {
+        await token.connect(user1).approve(mrcStaking, stakedAmountInWei);
+        await mrcStaking.connect(user1).stake(stakedAmountInWei);
+        await mrcStaking.connect(rewardRole).distributeRewards(rewardsInWei);
+        expect((await mrcStaking.users(user1)).balance).to.equal(stakedAmountInWei*2n)
+      })
 
 
+      it("Total earned by user", async function() {
+        let firstRewardPerToken = await mrcStaking.rewardPerTokenStored();
+        const firstEarned = ((await mrcStaking.users(user1)).balance) * firstRewardPerToken / units;
+        let rewardPerToken = await mrcStaking.rewardPerToken();
+        const secondEarned = ((await mrcStaking.users(user1)).balance) * (rewardPerToken - firstRewardPerToken) / units;
+        expect(await mrcStaking.earned(user1)).to.equal(firstEarned + secondEarned);
+      })
+    })
 
-    describe("After two distributions", function() {})
-
-
-    describe("After period finished", function() {})
   })
 
 })
