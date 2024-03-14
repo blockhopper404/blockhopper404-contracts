@@ -8,6 +8,8 @@ abstract contract MRC404 is ERC404, AccessControl {
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
   bytes32 public constant DAO_ROLE = keccak256("DAO_ROLE");
 
+  uint256 public maxSupply;
+
   error ERC20InsufficientAllowance(
     address spender,
     uint256 allowed,
@@ -18,8 +20,10 @@ abstract contract MRC404 is ERC404, AccessControl {
     string memory name_,
     string memory symbol_,
     uint8 decimals_,
-    address admin_
+    address admin_,
+    uint256 maxSupply_
   ) ERC404(name_, symbol_, decimals_) {
+    maxSupply = maxSupply_;
     _grantRole(DEFAULT_ADMIN_ROLE, admin_);
     _grantRole(DAO_ROLE, admin_);
   }
@@ -158,5 +162,6 @@ abstract contract MRC404 is ERC404, AccessControl {
         nftIds[i] = _retrieveOrMintERC721(to);
       }
     }
+    require((totalSupply / units) <= maxSupply, "Max supply is exceeded");
   }
 }
