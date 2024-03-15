@@ -10,7 +10,7 @@ import { BigNumberish, Signer } from "ethers";
 import { time } from "@nomicfoundation/hardhat-network-helpers";
 
 
-describe.only("MRC404Staking", function() {
+describe("MRC404Staking", function() {
   const rarityBytes = "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000";
 
   let admin: Signer;
