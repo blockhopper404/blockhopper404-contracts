@@ -85,6 +85,24 @@ describe.only("MRC404Staking", function() {
       expect((await mrcStaking.users(user1)).balance).to.equal(stakedAmountInWei * 2n);
     })
 
+    it("Stake again after withdraw", async function() {
+      const reward = ethers.parseEther("10");
+      await mrcStaking.connect(rewardRole).distributeRewards(reward);
+      await time.increase(rewardPeriod);
+
+      const earned = await mrcStaking.earned(user1);
+      await expect(mrcStaking.connect(user1).getReward())
+      .emit(mrcStaking, "RewardGot").withArgs(user1, earned);
+
+      await expect(mrcStaking.connect(user1).withdraw())
+      .to.emit(token, "ERC20Transfer").withArgs(mrcStaking, user1, stakedAmountInWei);
+
+      expect((await mrcStaking.users(user1)).balance).to.equal(0);
+      await token.connect(user1).approve(mrcStaking, stakedAmountInWei);
+      await mrcStaking.connect(user1).stake(stakedAmountInWei);
+      expect((await mrcStaking.users(user1)).balance).to.equal(stakedAmountInWei);
+    })
+
   })
 
   describe("Distribute Rewards", function() {
