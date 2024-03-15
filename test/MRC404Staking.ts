@@ -244,6 +244,18 @@ describe.only("MRC404Staking", function() {
         await mrcStaking.connect(rewardRole).distributeRewards(rewardsInWei);
       })
 
+      it("Can get rewards after withdraw", async function() {
+        await time.increase(rewardPeriod);
+        await mrcStaking.connect(user1).withdraw();
+
+        expect((await mrcStaking.users(user1)).balance).to.equal(0);
+        await time.increase(oneDay);
+
+        const earned = await mrcStaking.earned(user1);
+        await expect(mrcStaking.connect(user1).getReward())
+        .emit(mrcStaking, "RewardGot").withArgs(user1, earned);
+      })
+
       const getRewardDesc = function(
         description: string,
         addedDuration: number
@@ -279,4 +291,82 @@ describe.only("MRC404Staking", function() {
     })
   })
 
+  describe("Withdraw", function() {
+    let stakedAmount = 50;
+    let stakedAmountInWei = ethers.parseEther(stakedAmount.toString());
+    const rewards = 20;
+    const rewardsInWei = ethers.parseEther(rewards.toString());
+
+    beforeEach("Stake and distribute some tokens", async function() {
+      await token.connect(user1).approve(mrcStaking, stakedAmountInWei);
+      await token.connect(user2).approve(mrcStaking, stakedAmountInWei);
+      await mrcStaking.connect(user1).stake(stakedAmountInWei);
+      await mrcStaking.connect(user2).stake(stakedAmountInWei / 2n);
+    })
+
+    it("Reverts when staker is locked", async function() {
+      await mrcStaking.connect(rewardRole).setStakeLockStatus(user1, true);
+      await expect(mrcStaking.connect(user1).withdraw())
+      .revertedWith("Stake is locked.")
+    })
+
+    it("Reverts before waiting period", async function() {
+      const twelveHours = 60 * 60 * 12;
+      expect(await mrcStaking.withdrawalWaitingPeriod()).to.equal(twelveHours);
+      await expect(mrcStaking.connect(user1).withdraw())
+      .revertedWith("Withdrawal waiting period")
+    })
+
+    it("Reverts when user doesn't stake", async function() {
+      await expect(mrcStaking.connect(daoRole).withdraw())
+      .revertedWith("Invalid balance")
+    })
+
+    describe("Before distribution", async function() {
+      beforeEach("Withdraw", async function() {
+        await time.increase(5 * oneDay);
+        this.withdrawTx = await mrcStaking.connect(user1).withdraw();
+      })
+
+      it("User balance decrease", async function() {
+        expect((await mrcStaking.users(user1)).balance).to.equal(0);
+      })
+
+      it("Total staked decrease", async function() {
+        expect((await mrcStaking.totalStaked())).to.equal(stakedAmountInWei / 2n);
+      })
+
+    })
+
+    describe("After distribution", async function() {
+      beforeEach("Increase time", async function() {
+        await mrcStaking.connect(rewardRole).distributeRewards(rewardsInWei);
+        await time.increase(5 * oneDay);
+      })
+
+      it("Before period finish", async function() {
+        await mrcStaking.connect(user1).withdraw();
+        expect((await mrcStaking.users(user1)).balance).to.equal(0);
+      })
+
+      it("After period finish", async function() {
+        await time.increase(rewardPeriod);
+        await expect(mrcStaking.connect(user1).withdraw())
+        .to.emit(token, "ERC20Transfer").withArgs(mrcStaking, user1, stakedAmountInWei);
+        expect((await mrcStaking.users(user1)).balance).to.equal(0);
+      })
+
+      it("After get rewards", async function() {
+        await time.increase(rewardPeriod);
+        const earned = await mrcStaking.earned(user1);
+        await expect(mrcStaking.connect(user1).getReward())
+        .emit(mrcStaking, "RewardGot").withArgs(user1, earned);
+
+        await expect(mrcStaking.connect(user1).withdraw())
+        .to.emit(token, "ERC20Transfer").withArgs(mrcStaking, user1, stakedAmountInWei);
+        expect((await mrcStaking.users(user1)).balance).to.equal(0);
+      })
+    })
+
+  })
 })
