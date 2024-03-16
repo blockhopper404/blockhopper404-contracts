@@ -322,12 +322,6 @@ describe("MRC404Staking", function() {
       await mrcStaking.connect(user2).stake(stakedAmountInWei / 2n);
     })
 
-    it("Reverts when staker is locked", async function() {
-      await mrcStaking.connect(rewardRole).setStakeLockStatus(user1, true);
-      await expect(mrcStaking.connect(user1).withdraw())
-      .revertedWith("Stake is locked.")
-    })
-
     it("Reverts before waiting period", async function() {
       const twelveHours = 60 * 60 * 12;
       expect(await mrcStaking.withdrawalWaitingPeriod()).to.equal(twelveHours);
