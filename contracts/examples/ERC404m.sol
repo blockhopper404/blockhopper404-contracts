@@ -89,7 +89,7 @@ contract ERC404m is MRC404 {
     address to,
     uint256 amount,
     bytes calldata data
-  ) public override returns (uint256[] memory) {
+  ) public override onlyRole(MINTER_ROLE) returns (uint256[] memory) {
     uint256[] memory nftIds = _mint(to, amount);
     uint8[] memory rarities = decodeData(data);
     uint256 nftIdsLength = nftIds.length;
