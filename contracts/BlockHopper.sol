@@ -97,10 +97,8 @@ contract BlockHopper is MRC404 {
     for (uint256 i = 0; i < nftIdsLength; i++) {
       if (i < raritiesLength && rarities[i] != 0) {
         raritySeeds[nftIds[i]] = rarities[i];
-      } else {
-        raritySeeds[nftIds[i]] = getRaritySeed(nftIds[i]);
       }
-      emit RaritySeedSet(msg.sender, to, nftIds[i], raritySeeds[nftIds[i]]);
+      emit RaritySeedSet(msg.sender, to, nftIds[i], getRaritySeed(nftIds[i]));
     }
     return nftIds;
   }
@@ -130,7 +128,6 @@ contract BlockHopper is MRC404 {
         nftIds[i],
         raritySeeds[nftIds[i]]
       );
-      delete raritySeeds[nftIds[i]];
     }
   }
 }
