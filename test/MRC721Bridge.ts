@@ -4,19 +4,19 @@ import {
 import { expect, } from "chai";
 import { ethers, upgrades } from "hardhat";
 import { PANIC_CODES } from "@nomicfoundation/hardhat-chai-matchers/panic";
-import { BlockHopper, MRC20Bridge, IMuonClient } from "../typechain-types";
+import { BlockHopper, MRC721Bridge, IMuonClient } from "../typechain-types";
 import {  Signer } from "ethers";
 import { time } from "@nomicfoundation/hardhat-network-helpers";
 
 
-describe("MRC20Bridge", function() {
+describe.only("MRC721Bridge", function() {
   const rarityBytes = "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000";
 
   let admin: Signer;
   let user1: Signer;
   let tokenAdder: Signer;
   let token: BlockHopper;
-  let mrc20Bridge: MRC20Bridge;
+  let mrc721Bridge: MRC721Bridge;
   let contractChainId: bigint;
   let toChain: bigint;
   let tokenId: bigint;
@@ -42,47 +42,53 @@ describe("MRC20Bridge", function() {
     let tokenContract = await ethers.deployContract("BlockHopper", [""]);
     token = await tokenContract.waitForDeployment();
 
-    const depositContract = await ethers.deployContract("MRC20Bridge", [appId, muonPublicKey, user1]);
-    mrc20Bridge = await depositContract.waitForDeployment();
-    await mrc20Bridge.waitForDeployment();
-    await mrc20Bridge.grantRole(await mrc20Bridge.TOKEN_ADDER_ROLE(), tokenAdder);
+    const depositContract = await ethers.deployContract("MRC721Bridge", [appId, muonPublicKey, user1]);
+    mrc721Bridge = await depositContract.waitForDeployment();
+    await mrc721Bridge.waitForDeployment();
+    await mrc721Bridge.grantRole(await mrc721Bridge.TOKEN_ADDER_ROLE(), tokenAdder);
     await token.mint(user1, ethers.parseEther("100"), rarityBytes);
 
-    await token.setWhitelist(mrc20Bridge, true);
+    await token.setWhitelist(mrc721Bridge, true);
     return {
       token,
-      mrc20Bridge
+      mrc721Bridge
     }
   }
 
   beforeEach( async function() {
-    ({token, mrc20Bridge} = await loadFixture(deployContracts));
+    ({token, mrc721Bridge} = await loadFixture(deployContracts));
   })
 
   describe("Deposit", function() {
     const amount = ethers.parseEther("10");
+    const nftID = 1;
     it("Reverts if to_chain is the contract's network", async function() {
-      await expect(mrc20Bridge.connect(user1).depositFor(user1, amount, contractChainId, tokenId))
-      .revertedWith("Bridge: selfDeposit");
+      await expect(mrc721Bridge.connect(user1).depositFor(user1, [nftID], contractChainId, tokenId))
+      .revertedWith("Self Deposit");
+    })
+
+    it("Reverts if depositor doesn't approve", async function() {
+      await mrc721Bridge.connect(tokenAdder).addToken(1, token);
+      await expect(mrc721Bridge.connect(user1).depositFor(user1, [nftID], toChain, tokenId))
+      .to.revertedWithCustomError(token, "Unauthorized");
     })
 
     it("Reverts when the token doesn't add", async function() {
-      await expect(mrc20Bridge.connect(user1).depositFor(user1, amount, toChain, tokenId))
-      .revertedWith("Bridge: unknown tokenId");
+      await expect(mrc721Bridge.connect(user1).depositFor(user1, [nftID], toChain, tokenId))
+      .revertedWith("!tokenId");
     })
 
     describe("When the token is added", function() {
       beforeEach("Add the token address and deposit some tokens", async function() {
-        await mrc20Bridge.connect(tokenAdder).addToken(1, token);
-        await token.connect(user1).approve(mrc20Bridge, amount);
-        await mrc20Bridge.connect(user1).depositFor(user1, amount, toChain, tokenId);
+        await mrc721Bridge.connect(tokenAdder).addToken(1, token);
+        await token.connect(user1).approve(mrc721Bridge, nftID);
+        await mrc721Bridge.connect(user1).depositFor(user1, [nftID], toChain, tokenId);
       })
 
       it("Tx info", async function() {
-        const tx = await mrc20Bridge.txs(1);
+        const tx = await mrc721Bridge.txs(1);
         expect(tx.tokenId).to.equal(1);
         expect(tx.toChain).to.equal(toChain);
-        expect(tx.amount).to.equal(amount);
         expect(tx.user).to.equal(user1);
       })
 
