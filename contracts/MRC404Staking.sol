@@ -40,9 +40,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
   IERC20Upgradeable public rewardToken;
   IERC20Upgradeable public stakedToken;
 
-  // stakerAddress => bool
-  mapping(address => bool) public lockedStakes;
-
   // function name => paused
   mapping(string => bool) public functionPauseStatus;
 
@@ -58,7 +55,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
     uint256 _rewardPeriod
   );
   event MinStakeAmountUpdated(uint256 minStakeAmount);
-  event StakeLockStatusChanged(address indexed stakerAddress, bool locked);
   event FunctionPauseStatusChanged(string indexed functionName, bool isPaused);
   event WithdrawalWaitingPeriodChanged(uint256 period);
 
@@ -174,7 +170,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
     updateReward(msg.sender)
     whenFunctionNotPaused("withdraw")
   {
-    require(!lockedStakes[msg.sender], "Stake is locked.");
     require(
       users[msg.sender].lastStakeTime + withdrawalWaitingPeriod <
         block.timestamp,
@@ -211,26 +206,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
     lastUpdateTime = block.timestamp;
     periodFinish = block.timestamp + rewardPeriod;
     emit RewardsDistributed(reward, block.timestamp, rewardPeriod);
-  }
-
-  /**
-   * @dev Locks or unlocks the specified staker's stake.
-   * Only callable by the REWARD_ROLE.
-   * @param stakerAddress The address of the staker.
-   * @param lockStatus Boolean indicating whether to lock (true) or unlock (false) the stake.
-   */
-  function setStakeLockStatus(
-    address stakerAddress,
-    bool lockStatus
-  ) external onlyRole(REWARD_ROLE) {
-    bool currentLockStatus = lockedStakes[stakerAddress];
-    require(
-      currentLockStatus != lockStatus,
-      lockStatus ? "Already locked." : "Already unlocked."
-    );
-
-    lockedStakes[stakerAddress] = lockStatus;
-    emit StakeLockStatusChanged(stakerAddress, lockStatus);
   }
 
   /**
