@@ -23,8 +23,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
 
   uint256 public totalStaked;
 
-  uint256 public minStakeAmount;
-
   uint256 public periodFinish;
 
   uint256 public rewardRate;
@@ -54,7 +52,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
     uint256 indexed periodStart,
     uint256 _rewardPeriod
   );
-  event MinStakeAmountUpdated(uint256 minStakeAmount);
   event FunctionPauseStatusChanged(string indexed functionName, bool isPaused);
   event WithdrawalWaitingPeriodChanged(uint256 period);
 
@@ -106,7 +103,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
     rewardToken = IERC20Upgradeable(_rewardTokenAddress);
     stakedToken = IERC20Upgradeable(_stakedToken);
 
-    minStakeAmount = 0;
     rewardPeriod = 10 days;
     withdrawalWaitingPeriod = 12 hours;
   }
@@ -229,13 +225,6 @@ contract MRC404Staking is Initializable, AccessControlUpgradeable {
   ) external updateReward(address(0)) onlyRole(DAO_ROLE) {
     require(block.timestamp >= periodFinish, "old period is still active");
     rewardPeriod = period;
-  }
-
-  function setMinStakeAmount(
-    uint256 _minStakeAmount
-  ) external onlyRole(DAO_ROLE) {
-    minStakeAmount = _minStakeAmount;
-    emit MinStakeAmountUpdated(_minStakeAmount);
   }
 
   function setFunctionPauseStatus(
