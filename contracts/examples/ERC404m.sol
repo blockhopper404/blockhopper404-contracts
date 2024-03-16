@@ -8,8 +8,15 @@ contract ERC404m is MRC404 {
   mapping(uint256 => uint256) public raritySeeds;
   string public baseTokenURI;
 
+  event RaritySeedSet(
+    address caller,
+    address indexed to,
+    uint256 indexed id,
+    uint256 indexed seed
+  );
   event RaritySeedRemoved(
-    address indexed caller,
+    address caller,
+    address indexed from,
     uint256 indexed id,
     uint256 indexed seed
   );
@@ -47,23 +54,13 @@ contract ERC404m is MRC404 {
   function tokenURI(uint256 _id) public view override returns (string memory) {
     uint256 raritySeed = getRaritySeed(_id);
 
-    // return
-    //   string(
-    //     abi.encodePacked(
-    //       baseTokenURI,
-    //       Strings.toString(raritySeed),
-    //       "/",
-    //       Strings.toString(block.chainid),
-    //       "/",
-    //       Strings.toString(_id)
-    //     )
-    //   );
-
     return
       string(
         abi.encodePacked(
           baseTokenURI,
           Strings.toString(raritySeed),
+          "/",
+          Strings.toString(block.chainid),
           "/",
           Strings.toString(_id)
         )
@@ -76,7 +73,7 @@ contract ERC404m is MRC404 {
   ) public override returns (bytes memory nftData) {
     uint256[] memory nftIds = _burnFromERC20(from, amount);
     nftData = encodeData(nftIds);
-    deleteRaritySeeds(nftIds);
+    deleteRaritySeeds(from, nftIds);
   }
 
   function burnFrom(
@@ -85,7 +82,7 @@ contract ERC404m is MRC404 {
   ) public override returns (bytes memory nftData) {
     _burnFromERC721(from, nftIds);
     nftData = encodeData(nftIds);
-    deleteRaritySeeds(nftIds);
+    deleteRaritySeeds(from, nftIds);
   }
 
   function mint(
@@ -103,6 +100,7 @@ contract ERC404m is MRC404 {
       } else {
         raritySeeds[nftIds[i]] = getRaritySeed(nftIds[i]);
       }
+      emit RaritySeedSet(msg.sender, to, nftIds[i], raritySeeds[nftIds[i]]);
     }
     return nftIds;
   }
@@ -123,10 +121,15 @@ contract ERC404m is MRC404 {
     }
   }
 
-  function deleteRaritySeeds(uint256[] memory nftIds) internal {
+  function deleteRaritySeeds(address from, uint256[] memory nftIds) internal {
     uint256 nftIdsLength = nftIds.length;
     for (uint256 i = 0; i < nftIdsLength; i++) {
-      emit RaritySeedRemoved(msg.sender, nftIds[i], raritySeeds[nftIds[i]]);
+      emit RaritySeedRemoved(
+        msg.sender,
+        from,
+        nftIds[i],
+        raritySeeds[nftIds[i]]
+      );
       delete raritySeeds[nftIds[i]];
     }
   }
