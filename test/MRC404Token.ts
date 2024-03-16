@@ -662,6 +662,15 @@ describe("ERC404m", function() {
         ["burnFrom(address,uint256[])"](this.wallet1, [valueOrId])
       });
 
+      it("Check owned", async function () {
+        let owned = await this.token.owned(this.wallet1);
+        expect(owned).to.include.members([1n, 2n, 3n, 4n, 5n, 10n, 9n, 6n, 7n, 8n]);
+        await this.token.connect(this.wallet1)
+        ["burnFrom(address,uint256[])"](this.wallet1, [3,5])
+        owned = await this.token.owned(this.wallet1);
+        expect(owned).to.include.members([1n, 2n, 4n, 10n, 9n, 6n, 7n, 8n]);
+      });
+
       describe("Burn from non-zero address with approval", function() {
         beforeEach("Burn one token", async function() {
           await this.token.connect(this.wallet1).approve(this.spender, valueOrId);
