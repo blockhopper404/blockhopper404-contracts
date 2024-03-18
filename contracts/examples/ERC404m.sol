@@ -109,7 +109,7 @@ contract ERC404m is MRC404 {
 
   function decodeData(
     bytes calldata data
-  ) public pure returns (uint8[] memory rarities) {
+  ) public pure override returns (uint8[] memory rarities) {
     bytes[] memory bytesArray = abi.decode(data, (bytes[]));
     uint256 length = bytesArray.length;
 

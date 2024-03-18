@@ -72,6 +72,10 @@ abstract contract MRC404 is ERC404, AccessControl {
     return abi.encode(params);
   }
 
+  function decodeData(
+    bytes calldata data
+  ) public pure virtual returns (uint8[] memory rarities);
+
   function _burnFromERC20(
     address from,
     uint256 amount

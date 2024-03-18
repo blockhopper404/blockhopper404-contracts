@@ -149,6 +149,11 @@ contract MRC721Bridge is AccessControl, IERC721Receiver {
     IMRC404 token = IMRC404(tokens[params.tokenId]);
     uint256 mintAmount = params.nftIds.length * token.getUnits();
 
+    require(
+      token.decodeData(nftData).length == params.nftIds.length,
+      "NFT data length mismatch"
+    );
+
     token.mint(params.user, mintAmount, nftData);
 
     emit Claim(

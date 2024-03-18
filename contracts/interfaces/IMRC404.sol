@@ -26,5 +26,9 @@ interface IMRC404 is IERC404 {
     uint256[] calldata ids
   ) external view returns (bytes memory);
 
+  function decodeData(
+    bytes calldata data
+  ) external pure returns (uint8[] memory rarities);
+
   function getUnits() external view returns (uint256);
 }
