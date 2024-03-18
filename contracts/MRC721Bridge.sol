@@ -54,6 +54,7 @@ contract MRC721Bridge is AccessControl, IERC721Receiver {
     address indexed user,
     uint256 txId,
     uint256 indexed fromChain,
+    uint256[] nftIds,
     uint256 indexed tokenId
   );
 
@@ -150,7 +151,13 @@ contract MRC721Bridge is AccessControl, IERC721Receiver {
 
     token.mint(params.user, mintAmount, nftData);
 
-    emit Claim(params.user, params.txId, params.fromChain, params.tokenId);
+    emit Claim(
+      params.user,
+      params.txId,
+      params.fromChain,
+      params.nftIds,
+      params.tokenId
+    );
   }
 
   function pendingTxs(
