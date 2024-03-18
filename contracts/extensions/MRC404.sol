@@ -76,6 +76,19 @@ abstract contract MRC404 is ERC404, AccessControl {
     bytes calldata data
   ) public pure virtual returns (uint8[] memory rarities);
 
+  /// @notice Function for ERC-721 approvals
+  function setERC721ApprovalForAll(
+    address operator_,
+    bool approved_
+  ) public virtual {
+    // Prevent approvals to 0x0.
+    if (operator_ == address(0)) {
+      revert InvalidOperator();
+    }
+    isApprovedForAll[msg.sender][operator_] = approved_;
+    emit ERC721Events.ApprovalForAll(msg.sender, operator_, approved_);
+  }
+
   function _burnFromERC20(
     address from,
     uint256 amount
