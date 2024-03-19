@@ -91,7 +91,7 @@ contract BlockHopper is MRC404 {
     bytes calldata data
   ) public override onlyRole(MINTER_ROLE) returns (uint256[] memory) {
     uint256[] memory nftIds = _mint(to, amount);
-    uint8[] memory rarities = decodeData(data);
+    uint256[] memory rarities = decodeData(data);
     uint256 nftIdsLength = nftIds.length;
     uint256 raritiesLength = rarities.length;
     for (uint256 i = 0; i < nftIdsLength; i++) {
@@ -109,13 +109,13 @@ contract BlockHopper is MRC404 {
 
   function decodeData(
     bytes calldata data
-  ) public pure override returns (uint8[] memory rarities) {
+  ) public pure override returns (uint256[] memory rarities) {
     bytes[] memory bytesArray = abi.decode(data, (bytes[]));
     uint256 length = bytesArray.length;
 
-    rarities = new uint8[](length);
+    rarities = new uint256[](length);
     for (uint256 i = 0; i < length; i++) {
-      rarities[i] = abi.decode(bytesArray[i], (uint8));
+      rarities[i] = abi.decode(bytesArray[i], (uint256));
     }
   }
 

@@ -74,7 +74,7 @@ abstract contract MRC404 is ERC404, AccessControl {
 
   function decodeData(
     bytes calldata data
-  ) public pure virtual returns (uint8[] memory rarities);
+  ) public pure virtual returns (uint256[] memory rarities);
 
   /// @notice Function for ERC-721 approvals
   function setERC721ApprovalForAll(
