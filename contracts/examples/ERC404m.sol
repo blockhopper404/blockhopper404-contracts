@@ -126,7 +126,7 @@ contract ERC404m is MRC404 {
         msg.sender,
         from,
         nftIds[i],
-        raritySeeds[nftIds[i]]
+        getRaritySeed(nftIds[i])
       );
     }
   }
