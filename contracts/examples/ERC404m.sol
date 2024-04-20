@@ -8,19 +8,6 @@ contract ERC404m is MRC404 {
   mapping(uint256 => uint256) public raritySeeds;
   string public baseTokenURI;
 
-  event RaritySeedSet(
-    address caller,
-    address indexed to,
-    uint256 indexed id,
-    uint256 indexed seed
-  );
-  event RaritySeedRemoved(
-    address caller,
-    address indexed from,
-    uint256 indexed id,
-    uint256 indexed seed
-  );
-
   constructor(
     string memory _baseTokenURI
   ) MRC404("Muon ERC404", "ERC404m", 18, msg.sender, 10000) {
@@ -73,7 +60,6 @@ contract ERC404m is MRC404 {
   ) public override returns (bytes memory nftData) {
     uint256[] memory nftIds = _burnFromERC20(from, amount);
     nftData = encodeData(nftIds);
-    deleteRaritySeeds(from, nftIds);
   }
 
   function burnFrom(
@@ -82,7 +68,6 @@ contract ERC404m is MRC404 {
   ) public override returns (bytes memory nftData) {
     _burnFromERC721(from, nftIds);
     nftData = encodeData(nftIds);
-    deleteRaritySeeds(from, nftIds);
   }
 
   function mint(
@@ -98,7 +83,6 @@ contract ERC404m is MRC404 {
       if (i < raritiesLength && rarities[i] != 0) {
         raritySeeds[nftIds[i]] = rarities[i];
       }
-      emit RaritySeedSet(msg.sender, to, nftIds[i], getRaritySeed(nftIds[i]));
     }
     return nftIds;
   }
@@ -116,18 +100,6 @@ contract ERC404m is MRC404 {
     rarities = new uint256[](length);
     for (uint256 i = 0; i < length; i++) {
       rarities[i] = abi.decode(bytesArray[i], (uint256));
-    }
-  }
-
-  function deleteRaritySeeds(address from, uint256[] memory nftIds) internal {
-    uint256 nftIdsLength = nftIds.length;
-    for (uint256 i = 0; i < nftIdsLength; i++) {
-      emit RaritySeedRemoved(
-        msg.sender,
-        from,
-        nftIds[i],
-        getRaritySeed(nftIds[i])
-      );
     }
   }
 }
