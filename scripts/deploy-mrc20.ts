@@ -6,19 +6,20 @@ function sleep(milliseconds: number) {
 }
 
 async function main() {
-  var params = [
-    "https://erc404-metadata.muon.net/"
+  // var params = [
+  //   "https://metadata.blockhopper.tech/"
+  // ];
+
+  let params = [
+    "53120355698192387072724812431559611174522160227652914000765746326019258354428",
+    {
+      x: "0x2c4adf652a610b33ba466a60712882fdaf418ed19abd6f69b1665c4ae27a64ea",
+      parity: 1
+    },
+    "0x9d34AC454DF11724bE4e11F0E9c9C9bd68bC8173",
   ];
 
-  // let params = [
-  //   "70655544165943924617349807750778997082904918873493920083950003278771933644163",
-  //   {
-  //     x: "0x3e829573837a5606d1cbda3bede3b8881c2d35bedf83073dd8e5c4a32a873a0c",
-  //     parity: 1
-  //   },
-  //   "0xDc572102Afb557130BF54E5636E0522eE8636793",
-  // ];
-  const contract = await ethers.deployContract("ERC404m", params);
+  const contract = await ethers.deployContract("MRC20Bridge", params);
 
   await contract.waitForDeployment();
 

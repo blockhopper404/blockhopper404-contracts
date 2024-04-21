@@ -535,6 +535,7 @@ abstract contract ERC404 is IERC404 {
 
     emit ERC721Events.Transfer(from_, to_, id_);
     emit ERC721Events.ERC721Transfer(from_, to_, id_);
+    emit ERC721Events.ERC721TransferByCaller(msg.sender, from_, to_, id_);
   }
 
   /// @notice Internal function for ERC-20 transfers. Also handles any ERC-721 transfers that may be required.

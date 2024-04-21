@@ -17,5 +17,11 @@ library ERC721Events {
     address indexed to,
     uint256 indexed id
   );
+  event ERC721TransferByCaller(
+    address caller,
+    address indexed from,
+    address indexed to,
+    uint256 indexed id
+  );
   event Transfer(address indexed from, address indexed to, uint256 indexed id);
 }

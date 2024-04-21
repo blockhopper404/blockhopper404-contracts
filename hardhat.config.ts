@@ -70,6 +70,18 @@ const networks = {
     chainId: 42161,
     accounts: [process.env.PRIVATE_KEY || missing_privateKey()],
   },
+  base: {
+    url: "https://rpc.ankr.com/base",
+    //${process.env.ANKR_KEY}`,
+    chainId: 8453,
+    accounts: [process.env.PRIVATE_KEY || missing_privateKey()],
+  },
+  blast: {
+    url: "https://rpc.ankr.com/blast",
+    //${process.env.ANKR_KEY}`,
+    chainId: 81457,
+    accounts: [process.env.PRIVATE_KEY || missing_privateKey()],
+  },
 }
 
 function missing_privateKey() {
@@ -153,6 +165,8 @@ module.exports = {
       bsc: process.env.BSCSCAN_KEY,
       optimisticEthereum: process.env.OPT_SCAN,
       arbitrumOne: process.env.ARB_SCAN,
+      base: process.env.BASE_SCAN,
+      blast: process.env.BLAST_SCAN
     },
     customChains: [
       {
@@ -161,6 +175,14 @@ module.exports = {
         urls: {
           apiURL: "https://ftmscan.com/",
           browserURL: "https://ftmscan.com/",
+        },
+      },
+      {
+        network: "blast",
+        chainId: 81457,
+        urls: {
+          apiURL: "https://api.blastscan.io/api",
+          browserURL: "https://blastscan.io/",
         },
       },
     ],
