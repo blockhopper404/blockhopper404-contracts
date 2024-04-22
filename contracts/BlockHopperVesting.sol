@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IMRC404.sol";
 
-//TODO: remove AcceccControl and use Ownable
 
-contract BlockHopperVesting is AccessControl {
+contract BlockHopperVesting is Ownable {
   bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
   mapping(address => uint256) public balances;
@@ -21,7 +20,7 @@ contract BlockHopperVesting is AccessControl {
   	IMRC404 _token,
     uint256 _startDate,
     uint256 _period
-  ) {
+  ) Ownable(msg.sender) {
   	token = _token;
   	startDate = _startDate;
   	period = _period;
@@ -30,7 +29,7 @@ contract BlockHopperVesting is AccessControl {
   function depositFor(
     address user,
     uint256 amount
-  ) public onlyRole(ADMIN_ROLE){
+  ) public onlyOwner {
  	token.transferFrom(msg.sender, address(this), amount);
   	balances[user] += amount;
   }
